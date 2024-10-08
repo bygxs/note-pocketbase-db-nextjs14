@@ -49,3 +49,14 @@ nav a {
   margin: 0 0.5rem;
   text-decoration: underline;
 }
+
+.note {
+  background-color: #f9f871; /* Post-it yellow */
+  padding: 1rem;
+  margin: 1rem;
+  width: 200px;
+  height: 200px;
+  border: 1px solid #d1d1d1;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+  font-family: inherit;
+}

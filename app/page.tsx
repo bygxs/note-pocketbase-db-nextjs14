@@ -1,4 +1,3 @@
-
 // app/page.tsx
 "use client";
 
@@ -11,7 +10,7 @@ interface Post {
   content?: string; // Optional if you have a content field
 }
 
-const Home = () => {
+export default function Home() {
   const [posts, setPosts] = useState<Post[]>([]);
 
   useEffect(() => {
@@ -32,11 +31,12 @@ const Home = () => {
       <h1>Posts</h1>
       <ul>
         {posts.map((post) => (
-          <li key={post.id}>{post.title}</li>
+          <li key={post.id} className="note">
+            <strong>{post.title}</strong>
+            <p>{post.content}</p> {/* Display note content */}
+          </li>
         ))}
       </ul>
     </div>
   );
-};
-
-export default Home;
+}

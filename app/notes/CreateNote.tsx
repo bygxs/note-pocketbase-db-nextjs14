@@ -1,62 +1,48 @@
 "use client";
 
-// export default function Test() {
-//   return (
-//     <div>
-//       <h1>Create Note</h1>
-//     </div>
-//   );
-// }
-
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import pb from "../lib/pocketbase"; // Adjusted import
 
-export default function CreateNote() {
+const CreateNote = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [successMessage, setSuccessMessage] = useState(""); // Success message state
 
-  const router = useRouter();
+  const create = async (e: React.FormEvent) => {
+    e.preventDefault(); // Prevent the default form submission
 
-  const create = async () => {
-    // const db = new PocketBase('http://127.0.0.1:8090');
-
-    // await db.records.create('notes', {
-    //   title,
-    //   content,
-    // });
-
-    await fetch("http://127.0.0.1:8090/api/collections/notes/records", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        title,
-        content,
-      }),
-    });
-
-    setContent("");
-    setTitle("");
-
-    router.refresh();
+    try {
+      await pb.collection("posts").create({ title, content });
+      setSuccessMessage("SUCCESS ! Note saved in the database!"); // Set success message
+      setTitle("");
+      setContent("");
+    } catch (error) {
+      console.error("Error creating note:", error);
+      setSuccessMessage(""); // Reset success message on error
+    }
   };
 
   return (
     <form onSubmit={create}>
-      <h3>Create a new Note</h3>
+      <h3>Create New Note</h3>
       <input
         type="text"
         placeholder="Title"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
+        required
       />
       <textarea
         placeholder="Content"
         value={content}
         onChange={(e) => setContent(e.target.value)}
+        required
       />
-      <button type="submit">Create note</button>
+      <button type="submit">Create Note</button>
+      {successMessage && <p>{successMessage}</p>}{" "}
+      {/* Display success message */}
     </form>
   );
-}
+};
+
+export default CreateNote;
