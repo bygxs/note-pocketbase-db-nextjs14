@@ -1,37 +1,39 @@
 // app/page.tsx
 "use client";
+
 import { useEffect, useState } from "react";
 import pb from "./lib/pocketbase";
 
-interface Post {
+interface Note {
   id: string;
   title: string;
   content?: string; // Optional if you have a content field
 }
+
 export default function Home() {
-  const [posts, setPosts] = useState<Post[]>([]);
+  const [notes, setNotes] = useState<Note[]>([]);
 
   useEffect(() => {
-    const fetchPosts = async () => {
+    const fetchNotes = async () => {
       try {
-        const records = await pb.collection("posts").getFullList();
-        setPosts(records);
+        const records = await pb.collection("notes").getFullList();
+        setNotes(records);
       } catch (error) {
-        console.error("Error fetching posts:", error);
+        console.error("Error fetching notes:", error);
       }
     };
 
-    fetchPosts();
+    fetchNotes();
   }, []);
 
   return (
     <div>
-      <h1>Posts</h1>
+      <h1>Notes</h1>
       <ul>
-        {posts.map((post) => (
-          <li key={post.id} className="note">
-            <strong>{post.title}</strong>
-            <p>{post.content}</p> {/* Display note content */}
+        {notes.map((note) => (
+          <li key={note.id} className="note">
+            <strong>{note.title}</strong>
+            <p>{note.content}</p> {/* Display note content */}
           </li>
         ))}
       </ul>
