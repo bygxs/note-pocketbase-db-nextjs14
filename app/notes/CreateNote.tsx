@@ -12,7 +12,7 @@ const CreateNote = () => {
     e.preventDefault(); // Prevent the default form submission
 
     try {
-      await pb.collection("posts").create({ title, content });
+      await pb.collection("notes").create({ title, content }); // Ensure collection is 'notes'
       setSuccessMessage("SUCCESS ! Note saved in the database!"); // Set success message
       setTitle("");
       setContent("");
@@ -39,8 +39,7 @@ const CreateNote = () => {
         required
       />
       <button type="submit">Create Note</button>
-      {successMessage && <p>{successMessage}</p>}{" "}
-      {/* Display success message */}
+      {successMessage && <p>{successMessage}</p>} {/* Display success message */}
     </form>
   );
 };

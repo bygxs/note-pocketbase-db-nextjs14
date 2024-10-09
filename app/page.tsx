@@ -1,6 +1,5 @@
 // app/page.tsx
 "use client";
-
 import { useEffect, useState } from "react";
 import pb from "./lib/pocketbase";
 
@@ -9,7 +8,6 @@ interface Post {
   title: string;
   content?: string; // Optional if you have a content field
 }
-
 export default function Home() {
   const [posts, setPosts] = useState<Post[]>([]);
 
